@@ -1,6 +1,5 @@
 from socket import *
 
-# Function to encrypt a message using the Caesar cipher
 def caesar_cipher_encrypt(text, shift):
     encrypted_text = ""
     for char in text:
@@ -11,7 +10,6 @@ def caesar_cipher_encrypt(text, shift):
             encrypted_text += char
     return encrypted_text
 
-# Function to decrypt a message using the Caesar cipher
 def caesar_cipher_decrypt(text, shift):
     decrypted_text = ""
     for char in text:
@@ -23,9 +21,8 @@ def caesar_cipher_decrypt(text, shift):
     return decrypted_text
 
 def main():
-    server_ip = '10.1.95.68'  # Replace with your server's IP address
+    server_ip = '10.1.95.68'  #server's IP address
     server_port = 21312
-
     server_socket = socket(AF_INET, SOCK_STREAM)
     server_socket.bind((server_ip, server_port))
     server_socket.listen(1)
@@ -37,26 +34,18 @@ def main():
         print(f"Connection established with {addr}")
 
         while True:
-            # Receive encrypted message from the client
             encrypted_message = conn.recv(1024).decode()
             if not encrypted_message or encrypted_message.lower() == 'bye':
                 print("Client disconnected.")
                 break
-
-            # Display encrypted message
             print(f"CLIENT SENT (encrypted): {encrypted_message}")
 
-            # Decrypt the received message
             decrypted_message = caesar_cipher_decrypt(encrypted_message, 4)
             print(f"CLIENT SENT (decrypted): {decrypted_message}")
 
-            # Get server's response
             server_message = input("SERVER (plaintext): ")
-
-            # Encrypt the server's response before sending
             encrypted_response = caesar_cipher_encrypt(server_message, 4)
             
-            # Display the server's encryption process
             print(f"SERVER SENDING (plaintext): {server_message}")
             print(f"SERVER SENDING (encrypted): {encrypted_response}")
 
